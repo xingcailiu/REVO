@@ -50,16 +50,16 @@ ImgPyramidRGBD::ImgPyramidRGBD(const ImgPyramidSettings& settings, const std::sh
      distPatchSizes.push_back(20);distPatchSizes.push_back(10);distPatchSizes.push_back(5);
      rgbFullSize = fullResRgb.clone();
      cv::Mat gray;
-     cv::cvtColor(rgbFullSize,gray,CV_BGRA2GRAY);
+     cv::cvtColor(rgbFullSize,gray,cv::COLOR_BGRA2GRAY);
      cv::Mat depth = fullResDepth.clone();
      auto endScale = Timer::getTime();
      I3D_LOG(i3d::info) << "After downsize: " <<Timer::getTimeDiffMiS(startPyr,endScale);
      if (settings.DO_UNDISTORT)
      {
          cv::Mat gray2;
-         cv::remap(gray,gray2,cameraPyr->map1,cameraPyr->map2,CV_INTER_LINEAR);
+         cv::remap(gray,gray2,cameraPyr->map1,cameraPyr->map2,cv::INTER_LINEAR);
          cv::Mat depth2;
-         cv::remap(depth,depth2,cameraPyr->map1,cameraPyr->map2,CV_INTER_LINEAR);
+         cv::remap(depth,depth2,cameraPyr->map1,cameraPyr->map2,cv::INTER_LINEAR);
          gray = gray2;
          depth = depth2;
      }
@@ -238,7 +238,7 @@ void ImgPyramidRGBD::makeKeyframe()
         //cv::imshow("edgesPyr.at(lvl)",edgesPyr.at(lvl));
         //cv::waitKey(0);
         cv::Mat dt;
-        cv::distanceTransform(255-edgesPyr.at(lvl),dt,CV_DIST_L2, CV_DIST_MASK_PRECISE);
+        cv::distanceTransform(255-edgesPyr.at(lvl),dt,cv::DIST_L2, cv::DIST_MASK_PRECISE);
         this->dtPyr.push_back(dt);
         I3D_LOG(i3d::info) << "buildOptimizationStructure: " << int(cam.area)*sizeof(Eigen::Vector4f) << "sizeof: "<< sizeof(Eigen::Vector4f);
         Eigen::Vector4f* optStruc = (Eigen::Vector4f*)Eigen::internal::aligned_malloc(int(cam.area)*sizeof(Eigen::Vector4f));

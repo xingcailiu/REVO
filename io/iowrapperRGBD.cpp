@@ -323,7 +323,7 @@ bool IOWrapperRGBD::readNextFrame(cv::Mat& rgb, cv::Mat& depth, double &rgbTimeS
     //now read the images
     //I3D_LOG(i3d::info) << "Reading: " << mSettings.MainFolder+mSettings.subDataset+currRGBFile;
     rgb = cv::imread(mSettings.MainFolder+mSettings.subDataset+"/"+currRGBFile);
-    depth = cv::imread(mSettings.MainFolder+mSettings.subDataset+"/"+currDepthFile,CV_LOAD_IMAGE_UNCHANGED);
+    depth = cv::imread(mSettings.MainFolder+mSettings.subDataset+"/"+currDepthFile,cv::IMREAD_UNCHANGED);
     depth.convertTo(depth,CV_32FC1,1.0f/depthScaleFactor);
     //divide by 5000 to get distance in metres
     //depth = depth/depthScaleFactor;

@@ -17,6 +17,7 @@
 * You should have received a copy of the GNU General Public License
 * along with REVO. If not, see <http://www.gnu.org/licenses/>.
 */
+
 #pragma once
 #include <opencv2/opencv.hpp>
 #include <librealsense/rs.hpp>
@@ -36,4 +37,5 @@ private:
     rs::extrinsics depth_to_color;
     int nFramesRead;
 };
+
 

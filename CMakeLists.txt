@@ -43,7 +43,7 @@ if (WITH_REALSENSE)
     list(APPEND LIBS "realsense")
 endif()
 
-find_package(OpenCV 3 REQUIRED opencv_core opencv_videoio opencv_imgcodecs opencv_imgproc opencv_calib3d opencv_highgui)
+find_package(OpenCV 4 REQUIRED opencv_core opencv_videoio opencv_imgcodecs opencv_imgproc opencv_calib3d opencv_highgui)
 if(NOT OpenCV_FOUND)
    find_package(OpenCV 2.4.3 QUIET)
    if(NOT OpenCV_FOUND)
@@ -131,11 +131,13 @@ include_directories(${EIGEN3_INCLUDE_DIRS})
 message("Eigen found: ${EIGEN3_INCLUDE_DIRS} ${EIGEN_INCLUDE_DIRS} ${Eigen_INCLUDE_DIRS}")
 
 
-
+# just try
+#SET(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "/usr/local/include/boost")
+#SET(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "/usr/local/boost_1_70_0" "/usr/lib/x86_64-linux-gnu")
 
 find_package(Boost COMPONENTS system filesystem REQUIRED)
 list(APPEND LIBS ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY})
-
+list(APPEND LIBS /usr/local/lib/libboost_filesystem.so.1.70 /usr/local/lib/libboost_system.so.1.70)
 #UTILS
 list(APPEND UTILITY_SRC_FILES "utils/Logging.cpp")
 list(APPEND UTILITY_HEADER_FILES "utils/timer.h" "utils/Logging.h")
@@ -153,6 +155,10 @@ list(APPEND DATASTRUC_SRC_FILES "system/system.cpp" "system/tracker.cpp" "system
 list(APPEND DATASTRUC_HEADER_FILES "system/system.h" "system/tracker.h" "system/optimizer.h")# "system/windowedoptimization.h")
 
 list(APPEND SRC_FILES ${SRC_FILES} "main.cpp")
+
 add_executable(${PROJECT_NAME} ${SRC_FILES} ${HEADER_FILES} ${UTILITY_SRC_FILES} ${UTILITY_HEADER_FILES} ${DATASTRUC_SRC_FILES} ${DATASTRUC_HEADER_FILES})
 message("libuvc_LIBRARIES: ${libuvc_LIBRARIES}, ${LIBS}")
-target_link_libraries(${PROJECT_NAME} ${LIBS} ${FFMPEG_LIBRARIES})
+message("ffmpeg_include_dir: ${FFMPEG_INCLUDE_DIR}")
+message("ffmpeg_libraries: ${FFMPEG_LIBRARIES}")
+#target_link_libraries(${PROJECT_NAME} ${LIBS} /usr/lib/x86_64-linux-gnu/libxcb.so.1 /usr/lib/x86_64-linux-gnu/libxcb-shm.so.0 ${FFMPEG_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${LIBS} ${FFMPEG_LIBRARIES} ${XCB_LIBRARIES})
