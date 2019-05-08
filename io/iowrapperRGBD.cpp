@@ -27,7 +27,7 @@ IOWrapperRGBD::IOWrapperRGBD(const IOWrapperSettings& settings, const ImgPyramid
                         mFinish(false), mAllImagesRead(false), mPyrConfig(mPyrSettings), mCamPyr(camPyr), mHasMoreImages(true), noFrames(0)
 {
     mInitSuccess = true;
-    I3D_LOG(i3d::info) << "camPyr->size(): " << camPyr->size() << " " <<settings.MainFolder+settings.subDataset+"/";
+    I3D_LOG(i3d::info) << "camPyr->size(): " << camPyr->size() << "; " <<settings.MainFolder+"/"+settings.subDataset+"/";
 #ifdef WITH_ORBBEC_ASTRA_PRO
     if (mSettings.READ_FROM_ASTRA_PRO)
     {
@@ -67,8 +67,8 @@ IOWrapperRGBD::IOWrapperRGBD(const IOWrapperSettings& settings, const ImgPyramid
     if (mSettings.READ_FROM_DATASET())
     {
         //OPEN FILES
-        fileList.open((mSettings.MainFolder+mSettings.subDataset+"/"+mSettings.associateFile).c_str(),std::ios_base::in);
-        I3D_LOG(i3d::info) << "Reading: " << (mSettings.MainFolder+mSettings.subDataset+"/"+mSettings.associateFile);
+        fileList.open((mSettings.MainFolder+"/"+mSettings.subDataset+"/"+mSettings.associateFile).c_str(),std::ios_base::in);
+        I3D_LOG(i3d::info) << "Reading: " << (mSettings.MainFolder+"/"+mSettings.subDataset+"/"+mSettings.associateFile);
          if (!fileList.is_open())
          {
              I3D_LOG(i3d::error) <<"Could not open file list";
@@ -321,9 +321,9 @@ bool IOWrapperRGBD::readNextFrame(cv::Mat& rgb, cv::Mat& depth, double &rgbTimeS
         break;
     }
     //now read the images
-    //I3D_LOG(i3d::info) << "Reading: " << mSettings.MainFolder+mSettings.subDataset+currRGBFile;
-    rgb = cv::imread(mSettings.MainFolder+mSettings.subDataset+"/"+currRGBFile);
-    depth = cv::imread(mSettings.MainFolder+mSettings.subDataset+"/"+currDepthFile,cv::IMREAD_UNCHANGED);
+    //I3D_LOG(i3d::info) << "Reading: " << mSettings.MainFolder+"/"++mSettings.subDataset+currRGBFile;
+    rgb = cv::imread(mSettings.MainFolder+"/"+mSettings.subDataset+"/"+currRGBFile);
+    depth = cv::imread(mSettings.MainFolder+"/"+mSettings.subDataset+"/"+currDepthFile,cv::IMREAD_UNCHANGED);
     depth.convertTo(depth,CV_32FC1,1.0f/depthScaleFactor);
     //divide by 5000 to get distance in metres
     //depth = depth/depthScaleFactor;

@@ -133,8 +133,8 @@ float Optimizer::calcErrorAndBuffers(const std::shared_ptr<ImgPyramidRGBD> & ref
         resInfo.goodPtsEdges++;
     }
     LOG_THRESHOLD(i3d::debug);
-    I3D_LOG(i3d::info) <<std::fixed<< "goodCount: " << (resInfo.goodPtsEdges) << "goodEdges: " << resInfo.goodPtsEdges <<
-                        "badEdges: " << resInfo.badPtsEdges << " sumErrorUnweighted: " << resInfo.sumErrorUnweighted << " sumErrorWeighted: " << resInfo.sumErrorWeighted ;
+    I3D_LOG(i3d::info) <<std::fixed<< "goodCount: " << (resInfo.goodPtsEdges) << "; goodEdges: " << resInfo.goodPtsEdges <<
+                        "; badEdges: " << resInfo.badPtsEdges << "; sumErrorUnweighted: " << resInfo.sumErrorUnweighted << "; sumErrorWeighted: " << resInfo.sumErrorWeighted ;
     //exit(0);
 //    if (std::isnan(resInfo.sumErrorWeighted) || std::isinf(resInfo.sumErrorWeighted))
 //    {
@@ -235,7 +235,7 @@ void Optimizer::calculateWarpUpdate(LGS6 &ls, int goodPoints)
 float Optimizer::trackFrames(const std::shared_ptr<ImgPyramidRGBD> &refFrame, const std::shared_ptr<ImgPyramidRGBD> &currFrame,
                              Eigen::Matrix3f &R, Eigen::Vector3f &T, int lvl, ResidualInfo& resInfo)
 {
-    I3D_LOG(i3d::info) << "Track Frames!" << R << " " << T;
+    I3D_LOG(i3d::info) << "Track Frames!\n  R = \n" << R << " \n  t = " << T;
     // ============ track frame ============
     //Sophus::SE3d referenceToFrame(R.cast<double>(),T.cast<double>());
     Sophus::SE3f referenceToFrame(R,T);
@@ -251,7 +251,7 @@ float Optimizer::trackFrames(const std::shared_ptr<ImgPyramidRGBD> &refFrame, co
     {
         calculateWarpUpdate(ls,resInfo.goodPtsEdges);
         int incTry=0;
-        I3D_LOG(i3d::info) << "calculateWarpUpdate:" << resInfo.goodPtsEdges;
+        I3D_LOG(i3d::info) << "calculateWarpUpdate: " << resInfo.goodPtsEdges;
         while(true)
         {
             // solve LS system with current lambda
@@ -268,7 +268,7 @@ float Optimizer::trackFrames(const std::shared_ptr<ImgPyramidRGBD> &refFrame, co
             float error = calcErrorAndBuffers(refFrame,currFrame,new_referenceToFrame.rotationMatrix()/*.cast<float>()*/,
                                               new_referenceToFrame.translation()/*.cast<float>()*/,resInfo,lvl);
             I3D_LOG(i3d::detail) << "After calcResidualAndBuffersEdges: " << error;
-            I3D_LOG(i3d::info) <<"goodPts: " << resInfo.goodPtsEdges << " bad: " << resInfo.badPtsEdges << " tot: " << resInfo.goodPtsEdges+resInfo.badPtsEdges<<" error = "<< error <<"=" << resInfo.sumErrorWeighted << "/" << resInfo.goodPtsEdges;
+            I3D_LOG(i3d::info) <<"goodPts: " << resInfo.goodPtsEdges << "; bad: " << resInfo.badPtsEdges << "; total: " << resInfo.goodPtsEdges+resInfo.badPtsEdges<<"; error = "<< error <<" = " << resInfo.sumErrorWeighted << "/" << resInfo.goodPtsEdges;
             // accept inc?
             if(error < lastErr)
             {

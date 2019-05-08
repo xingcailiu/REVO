@@ -1,4 +1,22 @@
 %YAML:1.0
+INPUT_TYPR: 0
+
+#GENERAL
+DO_GENERATE_DENSE_PCL: 0
+DO_SHOW_DEBUG_IMAGE: 0
+DO_USE_PANGOLIN_VIEWER: 1
+USE_EDGE_HIST: 1
+
+#Tracker
+CHECK_TRACKING_RESULTS: 1
+CHECK_INIT_VALUES: 1
+USE_EDGE_FILTER: 1
+N_FRAMES_HIST_VOTING: 3
+
+#Output Settings
+DO_OUTPUT_POSES: 1 #typically in TUM Format
+
+%YAML:1.0
 
 #--------------------------------------------------------------------------------------------
 # Camera Parameters. Adjust them!
@@ -23,9 +41,9 @@ cannyThreshold1: 150
 cannyThreshold2: 100
 
 #dataset
-MainFolder: "/data2/CSI/CSI_SVN/KirasCSISmartCam3D/CSISmartScan3D_Daten/Daten_Testszenen/TUM/freiburg1/"
+MainFolder: "dataset"
 #Datasets: ["rgbd_dataset_freiburg1_desk2","rgbd_dataset_freiburg1_xyz"]
-Datasets: "rgbd_dataset_freiburg1_xyz"
+Datasets: "rgbd_dataset_freiburg1_desk"
 #Datasets: "rgbd_dataset_freiburg1_desk"
 ASSOCIATE: "associate.txt"
 
@@ -44,3 +62,4 @@ SKIP_FIRST_N_FRAMES: 0
 READ_N_IMAGES: 1000
 DEPTH_SCALE_FACTOR: 5000.0
 DO_RECORD_IMAGES: 0
+

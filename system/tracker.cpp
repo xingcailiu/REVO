@@ -344,10 +344,10 @@ TrackerNew::TrackerStatus TrackerNew::trackFrames(Eigen::Matrix3f &R, Eigen::Vec
     {
         reprojectRefEdgesToCurrentFrame(refFrame->returnGray(0),currFrame->return3DEdges(0),currFrame->returnK(0),R,T,refFrame->returnEdges(0), "after");
     }
-    I3D_LOG(i3d::error) << "FINAL AVG ERROR: " << error << " goodPtsEdge: " << resInfo.goodPtsEdges << "badPtsEdge: " << resInfo.badPtsEdges << " good/bad = "
-                        << double(resInfo.goodPtsEdges)/double(resInfo.badPtsEdges) << " good / total"
+    I3D_LOG(i3d::error) << "FINAL AVG ERROR: " << error << "; goodPtsEdge: " << resInfo.goodPtsEdges << "; badPtsEdge: " << resInfo.badPtsEdges << "; good/bad = "
+                        << double(resInfo.goodPtsEdges)/double(resInfo.badPtsEdges) << "; good/total = "
                         << double(resInfo.goodPtsEdges)/double(resInfo.badPtsEdges+resInfo.goodPtsEdges);
-    I3D_LOG(i3d::error) << "Final R: " << R << " final t: " << T;
+    I3D_LOG(i3d::error) << "\n  Final R: \n" << R << "\n  final t: \n" << T;
     if  (double(resInfo.goodPtsEdges)/double(resInfo.badPtsEdges) < 4) return TrackerNew::TRACKER_STATE_NEW_KF;
     return TrackerNew::TRACKER_STATE_OK;
 }
@@ -367,7 +367,8 @@ float TrackerNew::evalCostFunction(const Eigen::Matrix3f& R, const Eigen::Vector
     cv::Mat distanceTransform= mRefFrame->returnDistTransform(minLvl);
     double min,max;
     cv::minMaxIdx(distanceTransform,&min,&max);
-    cv::imwrite("dist_trans.png",distanceTransform/max*255);
+	//
+    cv::imwrite("dataset/dist_trans.png",distanceTransform/max*255);
     for( int ir=0 ; ir<_3d.cols() ; ir++ )
     {
         const Eigen::Vector3f pt = _3d.col(ir).head<3>();

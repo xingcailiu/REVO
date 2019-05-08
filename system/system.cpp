@@ -45,7 +45,8 @@ REVO::REVO(const std::string& settingsFile, const std::string& dataSettings,int 
     I3D_LOG(i3d::detail) << "after wrapper thread!";
     if (mSettings.DO_OUTPUT_POSES && !mSettings.settingsIO.isFinished)
     {
-        const std::string poseFileName("poses_"+mSettings.settingsIO.subDataset+".txt");
+	//
+        const std::string poseFileName("dataset/poses_"+mSettings.settingsIO.subDataset+".txt");
         mPoseFile.open((mSettings.outputFolder+poseFileName).c_str(),std::ios_base::out);
         if (!mPoseFile.is_open())
         {

@@ -41,7 +41,7 @@ int main(int argc, char ** argv)
             return EXIT_SUCCESS;
         }
         nRuns++;
-        I3D_LOG(i3d::info) << "nRuns" << nRuns;
+        I3D_LOG(i3d::info) << "nRuns: " << nRuns;
 
     }
     return EXIT_SUCCESS;
